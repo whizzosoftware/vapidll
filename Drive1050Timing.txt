@@ -1,0 +1,45 @@
+ROM 1050 timing
+
+----------------------------------------------------------
+Half track step time (including overhead): 10.16ms
+----------------------------------------------------------
+
+Time from lowering command line until start bit of ACK byte: 250 us.
+
+Small variations for two reasons:
+	- The exact point on the loop at CMND lowered (very small var.)
+	- The exact command because there is a table lookup. Measured for 'R' (worst case).
+
+
+
+Time from lowering command line to issue read sector cmdn to FDC: 1782 us.
+
+Assumes motor on and current track == desired.
+Important variations depending on desired track. The physical track and sector # are
+computed with an iterated division. Measured for ~ mid case.
+
+
+Transmit data rate = 51 usecs.
+Subroutine byte transmission (include overhead) = 528 usecs.
+Byte transmission from start bit to *start* of stop bit: 460 usecs.
+Total sector (include overhead and chksum) xmit time (129 bytes) = 70947 usecs.
+
+
+Time from FDC not busy:
+
+	To start of bit of response (C), includes overhead: 300 us.
+	To call SendSector routine: 814 us.
+	To start bit of sector data: 868 us.
+	To *start* of stop bit of checksum: 71717 us.
+
+----------------------------------------------------------
+Status 'S' command
+
+Time from lowering command line
+
+	To start bit of ACK byte: 180 us.
+		(from here very minor variations depending on density and write protect)
+	To start of bit of response (C), includes overhead: 945 us.
+	To *start* of stop bit of checksum: 4151 us.
+
+	255 us. from end of ACK to start of 'C': (945- 180 - 51*10)
